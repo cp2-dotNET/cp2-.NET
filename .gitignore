@@ -1,0 +1,19 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# .NET build output
+**/[Bb]in/
+**/[Oo]bj/
+artifacts/
+TestResults/
+*.nupkg
+
+# Local editor and OS files
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
