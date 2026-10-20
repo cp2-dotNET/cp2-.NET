@@ -43,8 +43,12 @@ public partial class FormPrincipal : Form
 
     private void AbrirVenda_Click(object? sender, EventArgs e)
     {
-        // A tela de venda será criada nas próximas etapas.
-        AbrirTelaEmDesenvolvimento("Venda de Instrumentos");
+        tslStatus.Text = "Abrindo: Venda de Instrumentos";
+
+        using var formVenda = new FormVenda();
+        formVenda.ShowDialog(this);
+
+        tslStatus.Text = "Pronto";
     }
 
     private void AbrirRelatorio_Click(object? sender, EventArgs e)
