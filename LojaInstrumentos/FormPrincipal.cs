@@ -53,8 +53,10 @@ public partial class FormPrincipal : Form
 
     private void AbrirRelatorio_Click(object? sender, EventArgs e)
     {
-        // A tela de relatório será criada nas próximas etapas.
-        AbrirTelaEmDesenvolvimento("Relatório de Vendas");
+        tslStatus.Text = "Abrindo: Relatório de Vendas";
+        using var formRelatorio = new FormRelatorio();
+        formRelatorio.ShowDialog(this);
+        tslStatus.Text = "Pronto";
     }
 
     private void AbrirTelaEmDesenvolvimento(string nomeTela)
