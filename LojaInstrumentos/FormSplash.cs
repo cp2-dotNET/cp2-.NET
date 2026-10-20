@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using LojaInstrumentos.Models;
 
 namespace LojaInstrumentos;
 
@@ -20,7 +21,7 @@ public partial class FormSplash : Form
         pgbCarregamento.Minimum = 0;
         pgbCarregamento.Maximum = ProgressoMaximo;
         pgbCarregamento.Value = 0;
-        lblStatus.Text = ObterMensagemStatus(0);
+        lblStatus.Text = EtapaCarregamento.ObterMensagem(0);
 
         tmrCarregamento.Start();
     }
@@ -29,7 +30,7 @@ public partial class FormSplash : Form
     {
         int novoValor = Math.Min(pgbCarregamento.Value + Incremento, ProgressoMaximo);
         pgbCarregamento.Value = novoValor;
-        lblStatus.Text = ObterMensagemStatus(novoValor);
+        lblStatus.Text = EtapaCarregamento.ObterMensagem(novoValor);
 
         if (novoValor >= ProgressoMaximo)
         {
@@ -42,17 +43,5 @@ public partial class FormSplash : Form
         tmrCarregamento.Stop();
         DialogResult = DialogResult.OK;
         Close();
-    }
-
-    private static string ObterMensagemStatus(int progresso)
-    {
-        return progresso switch
-        {
-            < 25 => "Iniciando o sistema...",
-            < 50 => "Carregando catálogo de instrumentos...",
-            < 75 => "Preparando módulo de vendas...",
-            < 100 => "Carregando relatórios...",
-            _ => "Pronto!"
-        };
     }
 }
