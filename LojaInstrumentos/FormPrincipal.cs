@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using LojaInstrumentos.Models;
 
 namespace LojaInstrumentos;
 
@@ -25,6 +26,7 @@ public partial class FormPrincipal : Form
 
     private void FormPrincipal_Load(object? sender, EventArgs e)
     {
+        Text = InfoSistema.TituloJanela("Menu Principal");
         AtualizarDataHora();
         tmrRelogio.Start();
     }
@@ -65,7 +67,7 @@ public partial class FormPrincipal : Form
     private void MniSobre_Click(object? sender, EventArgs e)
     {
         MessageBox.Show(
-            "Loja de Instrumentos Musicais\nSistema de Vendas — Versão 1.0",
+            InfoSistema.TextoSobre,
             "Sobre",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information);
