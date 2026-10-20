@@ -9,7 +9,7 @@ public partial class FormRelatorio : Form
     private const string TodasCategorias = "Todas";
     private static readonly CultureInfo CulturaBr = new("pt-BR");
 
-    private readonly List<VendaRelatorio> vendas = new();
+    private readonly List<Venda> vendas = new();
 
     public FormRelatorio()
     {
@@ -59,20 +59,13 @@ public partial class FormRelatorio : Form
 
     private void DgvVendas_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
     {
-        if (e.RowIndex < 0 || dgvVendas.Rows[e.RowIndex].Tag is not VendaRelatorio venda)
+        if (e.RowIndex < 0 || dgvVendas.Rows[e.RowIndex].Tag is not Venda venda)
         {
             return;
         }
 
         MessageBox.Show(
-            $"Pedido: {venda.NumeroPedido}\n" +
-            $"Data: {venda.Data:dd/MM/yyyy}\n" +
-            $"Cliente: {venda.Cliente}\n" +
-            $"Instrumento: {venda.Instrumento}\n" +
-            $"Categoria: {venda.Categoria}\n" +
-            $"Quantidade: {venda.Quantidade}\n" +
-            $"Valor unitário: {venda.ValorUnitario.ToString("C2", CulturaBr)}\n" +
-            $"Total: {venda.Total.ToString("C2", CulturaBr)}",
+            venda.Detalhes,
             "Detalhes do pedido",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information);
@@ -85,15 +78,15 @@ public partial class FormRelatorio : Form
         vendas.Clear();
         vendas.AddRange(new[]
         {
-            new VendaRelatorio(1001, hoje.AddDays(-25), "Ana Souza", "Violão Folk Tagima", "Cordas", 1, 1299.90m),
-            new VendaRelatorio(1002, hoje.AddDays(-21), "Bruno Lima", "Teclado Yamaha PSR-E373", "Teclas", 1, 1899.00m),
-            new VendaRelatorio(1003, hoje.AddDays(-18), "Carla Mendes", "Encordoamento Elixir .010", "Acessórios", 3, 89.90m),
-            new VendaRelatorio(1004, hoje.AddDays(-14), "Diego Rocha", "Bateria Acústica Pearl Roadshow", "Percussão", 1, 4590.00m),
-            new VendaRelatorio(1005, hoje.AddDays(-10), "Ana Souza", "Saxofone Alto Eagle", "Sopro", 1, 3250.00m),
-            new VendaRelatorio(1006, hoje.AddDays(-7), "Eduarda Alves", "Guitarra Fender Stratocaster", "Cordas", 1, 7899.00m),
-            new VendaRelatorio(1007, hoje.AddDays(-4), "Felipe Costa", "Baqueta Vic Firth 5A", "Acessórios", 4, 69.90m),
-            new VendaRelatorio(1008, hoje.AddDays(-2), "Bruno Lima", "Piano Digital Casio CDP-S110", "Teclas", 1, 3199.00m),
-            new VendaRelatorio(1009, hoje, "Gabriela Nunes", "Ukulele Soprano Kalani", "Cordas", 2, 349.90m),
+            new Venda(1001, hoje.AddDays(-25), "Ana Souza", "Violão Folk Tagima", "Cordas", 1, 1299.90m),
+            new Venda(1002, hoje.AddDays(-21), "Bruno Lima", "Teclado Yamaha PSR-E373", "Teclas", 1, 1899.00m),
+            new Venda(1003, hoje.AddDays(-18), "Carla Mendes", "Encordoamento Elixir .010", "Acessórios", 3, 89.90m),
+            new Venda(1004, hoje.AddDays(-14), "Diego Rocha", "Bateria Acústica Pearl Roadshow", "Percussão", 1, 4590.00m),
+            new Venda(1005, hoje.AddDays(-10), "Ana Souza", "Saxofone Alto Eagle", "Sopro", 1, 3250.00m),
+            new Venda(1006, hoje.AddDays(-7), "Eduarda Alves", "Guitarra Fender Stratocaster", "Cordas", 1, 7899.00m),
+            new Venda(1007, hoje.AddDays(-4), "Felipe Costa", "Baqueta Vic Firth 5A", "Acessórios", 4, 69.90m),
+            new Venda(1008, hoje.AddDays(-2), "Bruno Lima", "Piano Digital Casio CDP-S110", "Teclas", 1, 3199.00m),
+            new Venda(1009, hoje, "Gabriela Nunes", "Ukulele Soprano Kalani", "Cordas", 2, 349.90m),
         });
     }
 
@@ -136,7 +129,7 @@ public partial class FormRelatorio : Form
         tslStatus.Text = filtradas.Count == 0 ? "Nenhuma venda encontrada para os filtros informados" : "Pronto";
     }
 
-    private void PreencherGrade(List<VendaRelatorio> lista)
+    private void PreencherGrade(List<Venda> lista)
     {
         dgvVendas.Rows.Clear();
 
@@ -157,22 +150,10 @@ public partial class FormRelatorio : Form
         tslRegistros.Text = $"{lista.Count} registro(s)";
     }
 
-    private void AtualizarResumo(List<VendaRelatorio> lista)
+    private void AtualizarResumo(List<Venda> lista)
     {
         lblTotalPedidos.Text = lista.Count.ToString();
         lblTotalItens.Text = lista.Sum(v => v.Quantidade).ToString();
         lblValorTotal.Text = lista.Sum(v => v.Total).ToString("C2", CulturaBr);
-    }
-
-    private sealed record VendaRelatorio(
-        int NumeroPedido,
-        DateTime Data,
-        string Cliente,
-        string Instrumento,
-        string Categoria,
-        int Quantidade,
-        decimal ValorUnitario)
-    {
-        public decimal Total => Quantidade * ValorUnitario;
     }
 }
